@@ -5,36 +5,46 @@ import {
   Download, Upload, Settings, X, Bell, ArrowLeft, Layers, LogOut, Lock, User, RefreshCw, AlertTriangle
 } from 'lucide-react';
 
-// Importações do Firebase
-import { auth, db } from './firebase';
-import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+// --- IMPORTAÇÕES DO FIREBASE ATUALIZADAS ---
+import { initializeApp } from 'firebase/app';
+import { 
+  getAuth, 
+  onAuthStateChanged, 
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut 
+} from 'firebase/auth';
+import { 
+  getFirestore, 
+  doc, 
+  getDoc, 
+  setDoc 
+} from 'firebase/firestore';
+
+// --- CONFIGURAÇÃO DO FIREBASE ---
+const firebaseConfig = typeof __firebase_config !== 'undefined' 
+  ? JSON.parse(__firebase_config) 
+  : {
+      apiKey: "AIzaSyCLPIPwhSkUzoaISxFZlG9F97zRp1u0o9o",
+      authDomain: "financeiro-app-df224.firebaseapp.com",
+      projectId: "financeiro-app-df224",
+      storageBucket: "financeiro-app-df224.firebasestorage.app",
+      messagingSenderId: "1061825731478",
+      appId: "1:1061825731478:web:70c2e8c4c5eb13c56b5bb7"
+    };
+
+// Inicializa o Firebase no próprio arquivo
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 const MONTHS = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
 ];
 
-// --- DADOS DO SEU BACKUP (EMBUTIDOS PARA SEGURANÇA) ---
-const RESTORED_TRANSACTIONS = [
-  { "id": 1765839177531, "month": "Dezembro", "year": 2025, "description": "Seguro do Carro", "amount": 262.7, "type": "despesa", "category": "Outros", "date": "28/12/2025" },
-  { "id": 1765839222465, "month": "Dezembro", "year": 2025, "description": "Sem Parar ", "amount": 218.99, "type": "despesa", "category": "Outros", "date": "20/12/2025" },
-  { "id": 1765839293301, "month": "Dezembro", "year": 2025, "description": "Freelance do metropoly", "amount": 409.67, "type": "receita", "category": "Freelance", "date": "15/12/2025" },
-  { "id": 1765839336593, "month": "Dezembro", "year": 2025, "description": "Praia/Julia", "amount": 165.62, "type": "despesa", "category": "Lazer", "date": "16/12/2025" },
-  { "id": 1765839369950, "month": "Janeiro", "year": 2026, "description": "Cartão de Credito", "amount": 3758.37, "type": "despesa", "category": "Cartão de Crédito ", "date": "03/01/2026" },
-  { "id": 1765839399783, "month": "Janeiro", "year": 2026, "description": "Pensão ", "amount": 1518, "type": "receita", "category": "Salário", "date": "01/01/2026" },
-  { "id": 1765839422279, "month": "Janeiro", "year": 2026, "description": "Bolça PIBC", "amount": 700, "type": "receita", "category": "Salário", "date": "07/01/2026" },
-  { "id": 1765839461878, "month": "Dezembro", "year": 2025, "description": "Pensão", "amount": 1518, "type": "receita", "category": "Salário", "date": "01/12/2025" }
-];
-
-const RESTORED_BUDGETS = {
-  "2025_Moradia": 350,
-  "2025_Alimentação": 450,
-  "2025_Combustível": 350,
-  "2025_Cartão de Crédito ": 850
-};
-
-const RESTORED_CATEGORIES = {
+// --- DADOS INICIAIS (Limpos, sem backup fixo) ---
+const DEFAULT_CATEGORIES = {
   receita: ["Salário", "Freelance", "Investimentos", "Reembolso", "Outros"],
   despesa: ["Moradia", "Alimentação", "Transporte", "Saúde", "Lazer", "Educação", "Contas Fixas", "Outros", "Combustível", "Cartão de Crédito "]
 };
@@ -47,15 +57,12 @@ export default function App() {
   // --- ESTADOS DE AUTENTICAÇÃO ---
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLogin, setIsLogin] = useState(true);
   const [authError, setAuthError] = useState("");
 
-  // --- INICIALIZAÇÃO INTELIGENTE (Prioriza Nuvem depois Login, ou Backup se vazio) ---
+  // --- INICIALIZAÇÃO INTELIGENTE ---
   const [transactions, setTransactions] = useState([]);
   const [budgets, setBudgets] = useState({});
-  const [categories, setCategories] = useState(RESTORED_CATEGORIES);
+  const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
 
   // --- ESTADOS DO FORMULÁRIO ---
   const [description, setDescription] = useState('');
@@ -87,7 +94,8 @@ export default function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false);
+      // Se não tiver usuário, paramos o loading para mostrar a tela de login
+      if (!currentUser) setLoading(false);
     });
     return () => unsubscribe();
   }, []);
@@ -95,6 +103,7 @@ export default function App() {
   // --- 2. CARREGAMENTO DE DADOS DA NUVEM ---
   useEffect(() => {
     if (user) {
+      setLoading(true); // Carregando dados...
       const fetchData = async () => {
         try {
           const docRef = doc(db, "users", user.uid);
@@ -102,18 +111,19 @@ export default function App() {
 
           if (docSnap.exists()) {
             const data = docSnap.data();
-            // Se tiver dados na nuvem, usa. Se estiver vazio lá, usa o RESTORED local.
-            setTransactions(data.transactions && data.transactions.length > 0 ? data.transactions : RESTORED_TRANSACTIONS);
-            setBudgets(data.budgets && Object.keys(data.budgets).length > 0 ? data.budgets : RESTORED_BUDGETS);
-            setCategories(data.categories || RESTORED_CATEGORIES);
+            setTransactions(data.transactions || []);
+            setBudgets(data.budgets || {});
+            setCategories(data.categories || DEFAULT_CATEGORIES);
           } else {
-            // Usuário novo ou sem dados na nuvem: Usa backup local
-            setTransactions(RESTORED_TRANSACTIONS);
-            setBudgets(RESTORED_BUDGETS);
-            setCategories(RESTORED_CATEGORIES);
+            // Usuário novo: Começa limpo, apenas com categorias padrão
+            setTransactions([]);
+            setBudgets({});
+            setCategories(DEFAULT_CATEGORIES);
           }
         } catch (error) {
           console.error("Erro ao buscar dados:", error);
+        } finally {
+          setLoading(false);
         }
       };
       fetchData();
@@ -129,8 +139,9 @@ export default function App() {
             transactions,
             budgets,
             categories,
-            lastUpdated: new Date().toISOString()
-          });
+            lastUpdated: new Date().toISOString(),
+            email: user.email // Salva o email para referência
+          }, { merge: true });
         } catch (error) {
           console.error("Erro ao salvar:", error);
         }
@@ -144,18 +155,15 @@ export default function App() {
     }
   }, [transactions, budgets, categories, user, loading]);
 
-  // --- AUTENTICAÇÃO HANDLERS ---
-  const handleAuth = async (e) => {
-    e.preventDefault();
+  // --- AUTENTICAÇÃO HANDLERS (GOOGLE) ---
+  const handleLogin = async () => {
     setAuthError("");
+    const provider = new GoogleAuthProvider();
     try {
-      if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
-      } else {
-        await createUserWithEmailAndPassword(auth, email, password);
-      }
+      await signInWithPopup(auth, provider);
     } catch (err) {
-      setAuthError(err.message.includes('auth/invalid-credential') ? "Email ou senha incorretos." : "Erro ao conectar: " + err.message);
+      console.error(err);
+      setAuthError("Erro ao fazer login com Google. Tente novamente.");
     }
   };
 
@@ -164,21 +172,12 @@ export default function App() {
     setTransactions([]);
   };
 
+  // --- CATEGORIA PADRÃO ---
   useEffect(() => {
     if (categories[type]?.length > 0 && !categories[type].includes(category)) {
       setCategory(categories[type][0]);
     }
   }, [type, categories]);
-
-  // --- RESTAURAÇÃO MANUAL DE EMERGÊNCIA ---
-  const handleForceRestore = () => {
-    if(confirm("Isso irá substituir os dados atuais pelos dados do backup de 15/12/2025. Deseja continuar?")) {
-      setTransactions(RESTORED_TRANSACTIONS);
-      setBudgets(RESTORED_BUDGETS);
-      setCategories(RESTORED_CATEGORIES);
-      alert("Dados restaurados com sucesso!");
-    }
-  };
 
   // --- LÓGICA DE PREVISÃO SEMANAL ---
   const parseDate = (dateStr) => {
@@ -210,11 +209,6 @@ export default function App() {
   const projectedBalance = walletBalance - upcomingTotal;
 
   // --- FUNÇÕES ---
-  const handleBackToTransactions = () => {
-    const currentMonthName = MONTHS[new Date().getMonth()];
-    setActiveTab(currentMonthName);
-  };
-
   const handleExportData = () => {
     const backupData = { transactions, budgets, categories, exportedAt: new Date().toISOString(), version: '3.0 (Cloud)' };
     const link = document.createElement("a");
@@ -354,9 +348,8 @@ export default function App() {
   const yearlyExpense = yearlyData.reduce((acc, c) => acc + c.exp, 0);
   const yearlyBalance = yearlyIncome - yearlyExpense;
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center bg-slate-100 text-slate-500">Carregando...</div>;
-
-  if (!user) {
+  // --- TELA DE LOGIN ---
+  if (!user && !loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-100 p-4">
         <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md border border-slate-200">
@@ -368,40 +361,34 @@ export default function App() {
             <p className="text-slate-500 text-sm mt-2">Seus dados seguros na nuvem.</p>
           </div>
 
-          <form onSubmit={handleAuth} className="space-y-4">
-            {authError && <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg flex items-center gap-2"><AlertTriangle size={16}/> {authError}</div>}
-            
-            <div>
-              <label className="block text-xs font-bold text-slate-600 mb-1 ml-1 uppercase">Email</label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 text-slate-400 w-5 h-5" />
-                <input type="email" required value={email} onChange={e => setEmail(e.target.value)} className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="seu@email.com" />
-              </div>
+          {authError && (
+            <div className="p-3 mb-4 bg-red-50 text-red-600 text-sm rounded-lg flex items-center gap-2">
+              <AlertTriangle size={16}/> {authError}
             </div>
+          )}
 
-            <div>
-              <label className="block text-xs font-bold text-slate-600 mb-1 ml-1 uppercase">Senha</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 text-slate-400 w-5 h-5" />
-                <input type="password" required value={password} onChange={e => setPassword(e.target.value)} className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="******" />
-              </div>
-            </div>
-
-            <button type="submit" className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-200">
-              {isLogin ? "Entrar" : "Criar Conta Grátis"}
+          <div className="space-y-4">
+            <button 
+              onClick={handleLogin}
+              className="w-full py-4 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition-all shadow-sm flex items-center justify-center gap-3"
+            >
+              <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />
+              Entrar com Google
             </button>
-          </form>
+          </div>
 
-          <div className="mt-6 text-center">
-            <button onClick={() => setIsLogin(!isLogin)} className="text-sm text-blue-600 hover:underline font-medium">
-              {isLogin ? "Não tem conta? Cadastre-se" : "Já tem conta? Fazer Login"}
-            </button>
+          <div className="mt-6 text-center text-xs text-slate-400">
+            <p>Acesso seguro e sincronizado.</p>
           </div>
         </div>
       </div>
     );
   }
 
+  // --- LOADING GERAL ---
+  if (loading) return <div className="min-h-screen flex items-center justify-center bg-slate-100 text-slate-500"><RefreshCw className="w-6 h-6 animate-spin mr-2"/> Carregando seus dados...</div>;
+
+  // --- APLICAÇÃO PRINCIPAL ---
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
@@ -410,7 +397,7 @@ export default function App() {
             <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2"><Wallet className="text-blue-600" /> Controle Financeiro</h1>
             <p className="text-slate-500 text-sm mt-1 flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> 
-              Conectado como {user.email}
+              Conectado como {user.displayName || user.email}
             </p>
           </div>
           <div className="flex flex-wrap justify-center items-center gap-3 w-full xl:w-auto">
@@ -453,7 +440,6 @@ export default function App() {
                     <div className="col-span-1 md:col-span-2 bg-slate-50 p-6 rounded-xl border border-slate-200">
                         <div className="flex justify-between items-center mb-3">
                            <h2 className="text-sm font-bold text-slate-600 uppercase">Nova Categoria</h2>
-                           <button onClick={handleForceRestore} className="text-xs flex items-center gap-1 text-red-600 bg-red-50 px-2 py-1 rounded border border-red-100 hover:bg-red-100"><RefreshCw size={12}/> Restaurar Backup Inicial</button>
                         </div>
                         <form onSubmit={handleAddCategory} className="flex gap-4 items-end"><div className="flex-1"><label className="block text-xs font-medium text-slate-500 mb-1">Nome</label><input type="text" value={newCatName} onChange={(e) => setNewCatName(e.target.value)} className="w-full px-3 py-2 border rounded-lg" /></div><div className="w-40"><label className="block text-xs font-medium text-slate-500 mb-1">Tipo</label><select value={newCatType} onChange={(e) => setNewCatType(e.target.value)} className="w-full px-3 py-2 border rounded-lg"><option value="despesa">Despesa</option><option value="receita">Receita</option></select></div><button type="submit" className="px-6 py-2 bg-slate-800 text-white rounded-lg">Criar</button></form>
                     </div>
