@@ -1,0 +1,472 @@
+{
+  "transactions": [
+    {
+      "id": 1765839177531,
+      "month": "Dezembro",
+      "year": 2025,
+      "description": "Seguro do Carro",
+      "amount": 262.7,
+      "type": "despesa",
+      "category": "Outros",
+      "date": "28/12/2025"
+    },
+    {
+      "id": 1765839222465,
+      "month": "Dezembro",
+      "year": 2025,
+      "description": "Sem Parar ",
+      "amount": 218.99,
+      "type": "despesa",
+      "category": "Outros",
+      "date": "20/12/2025"
+    },
+    {
+      "id": 1765839293301,
+      "month": "Dezembro",
+      "year": 2025,
+      "description": "Freelance do metropoly",
+      "amount": 409.67,
+      "type": "receita",
+      "category": "Freelance",
+      "date": "15/12/2025"
+    },
+    {
+      "id": 1765839336593,
+      "month": "Dezembro",
+      "year": 2025,
+      "description": "Praia/Julia",
+      "amount": 165.62,
+      "type": "despesa",
+      "category": "Lazer",
+      "date": "16/12/2025"
+    },
+    {
+      "id": 1765839369950,
+      "month": "Janeiro",
+      "year": 2026,
+      "description": "Cartão de Credito",
+      "amount": 3758.37,
+      "type": "despesa",
+      "category": "Cartão de Crédito ",
+      "date": "03/01/2026"
+    },
+    {
+      "id": 1765839399783,
+      "month": "Janeiro",
+      "year": 2026,
+      "description": "Pensão ",
+      "amount": 1518,
+      "type": "receita",
+      "category": "Salário",
+      "date": "01/01/2026"
+    },
+    {
+      "id": 1765839422279,
+      "month": "Janeiro",
+      "year": 2026,
+      "description": "Bolça PIBC",
+      "amount": 700,
+      "type": "receita",
+      "category": "Salário",
+      "date": "07/01/2026"
+    },
+    {
+      "id": 1765840294232,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Pensão",
+      "amount": 1518,
+      "type": "receita",
+      "category": "Salário",
+      "date": "01/02/2026"
+    },
+    {
+      "id": 1765840329694,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Bolça PIBIC",
+      "amount": 700,
+      "type": "receita",
+      "category": "Salário",
+      "date": "06/02/2026"
+    },
+    {
+      "id": 1765840510899,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Ótica  (1/5)",
+      "amount": 218.5,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/02/2026"
+    },
+    {
+      "id": 1765840510900,
+      "month": "Março",
+      "year": 2026,
+      "description": "Ótica  (2/5)",
+      "amount": 218.5,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/03/2026"
+    },
+    {
+      "id": 1765840510901,
+      "month": "Abril",
+      "year": 2026,
+      "description": "Ótica  (3/5)",
+      "amount": 218.5,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/04/2026"
+    },
+    {
+      "id": 1765840510902,
+      "month": "Maio",
+      "year": 2026,
+      "description": "Ótica  (4/5)",
+      "amount": 218.5,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/05/2026"
+    },
+    {
+      "id": 1765840510903,
+      "month": "Junho",
+      "year": 2026,
+      "description": "Ótica  (5/5)",
+      "amount": 218.5,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/06/2026"
+    },
+    {
+      "id": 1765840544286,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Pix-Credito",
+      "amount": 994.33,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/02/2026"
+    },
+    {
+      "id": 1765840567214,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Pix-Credito",
+      "amount": 497.16,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/02/2026"
+    },
+    {
+      "id": 1765840580004,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Responde-Ai",
+      "amount": 17.9,
+      "type": "despesa",
+      "category": "Educação",
+      "date": "03/02/2026"
+    },
+    {
+      "id": 1765840651005,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Parcelamento de Fatura  (1/2)",
+      "amount": 1698.81,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/02/2026"
+    },
+    {
+      "id": 1765840651006,
+      "month": "Março",
+      "year": 2026,
+      "description": "Parcelamento de Fatura  (2/2)",
+      "amount": 1698.81,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/03/2026"
+    },
+    {
+      "id": 1765840711306,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Parcelamento de Fatura  (1/2)",
+      "amount": 980.58,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/02/2026"
+    },
+    {
+      "id": 1765840711307,
+      "month": "Março",
+      "year": 2026,
+      "description": "Parcelamento de Fatura  (2/2)",
+      "amount": 980.58,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/03/2026"
+    },
+    {
+      "id": 1765840767668,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Revisão do Carro",
+      "amount": 112.02,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/02/2026"
+    },
+    {
+      "id": 1765840830125,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Troca de pneu do Carro (1/4)",
+      "amount": 111.28,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/02/2026"
+    },
+    {
+      "id": 1765840830126,
+      "month": "Março",
+      "year": 2026,
+      "description": "Troca de pneu do Carro (2/4)",
+      "amount": 111.28,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/03/2026"
+    },
+    {
+      "id": 1765840830127,
+      "month": "Abril",
+      "year": 2026,
+      "description": "Troca de pneu do Carro (3/4)",
+      "amount": 111.28,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/04/2026"
+    },
+    {
+      "id": 1765840830128,
+      "month": "Maio",
+      "year": 2026,
+      "description": "Troca de pneu do Carro (4/4)",
+      "amount": 111.28,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/05/2026"
+    },
+    {
+      "id": 1765840869254,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Concerto da roda do carro (1/2)",
+      "amount": 93.5,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/02/2026"
+    },
+    {
+      "id": 1765840869255,
+      "month": "Março",
+      "year": 2026,
+      "description": "Concerto da roda do carro (2/2)",
+      "amount": 93.5,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/03/2026"
+    },
+    {
+      "id": 1765840915657,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Empréstimo  (1/6)",
+      "amount": 379.48,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "17/02/2026"
+    },
+    {
+      "id": 1765840915658,
+      "month": "Março",
+      "year": 2026,
+      "description": "Empréstimo  (2/6)",
+      "amount": 379.48,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "17/03/2026"
+    },
+    {
+      "id": 1765840915659,
+      "month": "Abril",
+      "year": 2026,
+      "description": "Empréstimo  (3/6)",
+      "amount": 379.48,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "17/04/2026"
+    },
+    {
+      "id": 1765840915660,
+      "month": "Maio",
+      "year": 2026,
+      "description": "Empréstimo  (4/6)",
+      "amount": 379.48,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "17/05/2026"
+    },
+    {
+      "id": 1765840915661,
+      "month": "Junho",
+      "year": 2026,
+      "description": "Empréstimo  (5/6)",
+      "amount": 379.48,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "17/06/2026"
+    },
+    {
+      "id": 1765840915662,
+      "month": "Julho",
+      "year": 2026,
+      "description": "Empréstimo  (6/6)",
+      "amount": 379.48,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "17/07/2026"
+    },
+    {
+      "id": 1765840934472,
+      "month": "Fevereiro",
+      "year": 2026,
+      "description": "Empréstimo  (1/6)",
+      "amount": 94.34,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "17/02/2026"
+    },
+    {
+      "id": 1765840934473,
+      "month": "Março",
+      "year": 2026,
+      "description": "Empréstimo  (2/6)",
+      "amount": 94.34,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "17/03/2026"
+    },
+    {
+      "id": 1765840934474,
+      "month": "Abril",
+      "year": 2026,
+      "description": "Empréstimo  (3/6)",
+      "amount": 94.34,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "17/04/2026"
+    },
+    {
+      "id": 1765840934475,
+      "month": "Maio",
+      "year": 2026,
+      "description": "Empréstimo  (4/6)",
+      "amount": 94.34,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "17/05/2026"
+    },
+    {
+      "id": 1765840934476,
+      "month": "Junho",
+      "year": 2026,
+      "description": "Empréstimo  (5/6)",
+      "amount": 94.34,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "17/06/2026"
+    },
+    {
+      "id": 1765840934477,
+      "month": "Julho",
+      "year": 2026,
+      "description": "Empréstimo  (6/6)",
+      "amount": 94.34,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "17/07/2026"
+    },
+    {
+      "id": 1765841137036,
+      "month": "Março",
+      "year": 2026,
+      "description": "Pix-Credito ",
+      "amount": 275.58,
+      "type": "despesa",
+      "category": "Cartão de Credito",
+      "date": "03/03/2026"
+    },
+    {
+      "id": 1765841174541,
+      "month": "Março",
+      "year": 2026,
+      "description": "Penção",
+      "amount": 1518,
+      "type": "receita",
+      "category": "Salário",
+      "date": "03/03/2026"
+    },
+    {
+      "id": 1765841193871,
+      "month": "Março",
+      "year": 2026,
+      "description": "Bolça PIBIC",
+      "amount": 700,
+      "type": "receita",
+      "category": "Salário",
+      "date": "06/03/2026"
+    }
+  ],
+  "budgets": {
+    "2025_Moradia": 350,
+    "2025_Alimentação": 450,
+    "2025_Combustível": 350,
+    "2025_Cartão de Crédito ": 850,
+    "2026_Moradia": 0,
+    "2026_Alimentação": 400,
+    "2026_Combustivel": 350,
+    "2026_Cartão de Credito": 800,
+    "2026_Lazer": 250,
+    "2026_Saúde": 100,
+    "2026_Carro": 250,
+    "2026_Contas Fixas": 380
+  },
+  "categories": {
+    "receita": [
+      "Salário",
+      "Freelance",
+      "Investimentos",
+      "Reembolso",
+      "Outros"
+    ],
+    "despesa": [
+      "Moradia",
+      "Alimentação",
+      "Transporte",
+      "Saúde",
+      "Lazer",
+      "Educação",
+      "Contas Fixas",
+      "Outros",
+      "Cartão de Credito",
+      "Carro",
+      "Combustivel"
+    ]
+  },
+  "exportedAt": "2025-12-15T23:28:41.890Z",
+  "version": "2.5"
+}
